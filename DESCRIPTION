@@ -1,0 +1,10 @@
+Package: mangaba
+Type: Package
+Title: Provides an enseble forecast function
+Version: 0.1
+Date: 2013-03-11
+Author: João Daniel <jdanielnd@gmail.com>
+Maintainer: João Daniel <jdanielnd@gmail.com>
+Description: Provides an enseble forecast function
+License: GPL-2
+Depends: forecast
