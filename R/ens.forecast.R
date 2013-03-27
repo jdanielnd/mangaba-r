@@ -1,8 +1,8 @@
 ens.forecast <-
 function(x, start, frequency, level) {
   tser = ts(x, start=start, frequency=frequency)
-  mod.aa = auto.arima(x, seasonal.test="ch")
-  mod.ee = ets(x)
+  mod.aa = auto.arima(tser, seasonal.test="ch")
+  mod.ee = ets(tser)
   fc.aa = forecast(mod.aa, level=level)
   fc.ee = forecast(mod.ee, level=level)
   mape.aa = accuracy(mod.aa)[["MAPE"]]
@@ -13,5 +13,6 @@ function(x, start, frequency, level) {
   upper = fc.aa$upper*weight.aa + fc.ee$upper*weight.ee
   point = fc.aa$mean*weight.aa + fc.ee$mean*weight.ee
   lower = fc.aa$lower*weight.aa + fc.ee$lower*weight.ee
+  upper[1]
   list(upper,point,lower)
 }
