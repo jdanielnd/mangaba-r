@@ -8,7 +8,7 @@ Ensembled forecast
   Generate ensembled forecast
 }
 \usage{
-ens.forecast(x, start, frequency, level)
+ens.forecast(x, start, frequency, level, h=12)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,30 +24,19 @@ time series frequency
   \item{level}{
 confidence level for forecast
 }
+  \item{h}{
+number of periods to be forecasted
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
 }
 \value{
 \item{upper }{Upper forecast band}
 \item{point }{Point forecast}
 \item{lower }{Lower forecast band}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 Joao Daniel <jdanielnd@gmail.com>
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
   x = (1:12)*100 + rnorm(12)*100
   start = c(2010,1)

@@ -25,14 +25,7 @@ Joao Daniel <jdanielnd@gmail.com>
 Maintainer: Joao Daniel <jdanielnd@gmail.com>
 ~~ The author and/or maintainer of the package ~~
 }
-\references{
-~~ Literature or other references for background information ~~
-}
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
 \examples{
   x = (1:12)*100 + rnorm(12)*100
   start = c(2010,1)
