@@ -11,9 +11,9 @@ function(x, start, frequency, level, h=12) {
   }
   mod.ee = ets(tser)
 
-  fc.aa = forecast(mod.aa, level=level, h=h)
-  fc.aach = forecast(mod.aach, level=level, h=h)
-  fc.ee = forecast(mod.ee, level=level, h=h)
+  fc.aa = forecast(mod.aa, level=level)
+  fc.aach = forecast(mod.aach, level=level)
+  fc.ee = forecast(mod.ee, level=level)
   mape.aa = accuracy(mod.aa)[["MAPE"]]
   mape.aach = accuracy(mod.aach)[["MAPE"]]
   mape.maa = (mape.aa + mape.aach)/2
