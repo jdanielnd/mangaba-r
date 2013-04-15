@@ -16,8 +16,11 @@ function(x, start, frequency, level, h=12) {
   fc.ee = forecast(mod.ee, level=level)
   mape.aa = accuracy(mod.aa)[["MAPE"]]
   mape.aach = accuracy(mod.aach)[["MAPE"]]
-  mape.maa = (mape.aa + mape.aach)/2
   mape.ee = accuracy(mod.ee)[["MAPE"]]
+  mape.aa = ifelse(is.infinite(mape.aa), 1, mape.aa)
+  mape.aach = ifelse(is.infinite(mape.aach), 1, mape.aach)
+  mape.maa = (mape.aa + mape.aach)/2
+  mape.ee = ifelse(is.infinite(mape.ee), 1, mape.ee)
   sum.mape = mape.maa + mape.ee
   weight.maa = mape.ee/sum.mape
   weight.ee = mape.maa/sum.mape
