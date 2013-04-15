@@ -1,7 +1,8 @@
 ens.forecast <-
-function(x, start, frequency, level, h=12) {
+function(x, start, frequency, level) {
 
   tser = ts(x, start=start, frequency=frequency)
+  size = length(tser)
 
   mod.aa = auto.arima(tser)
   if (length(x) > (frequency+1)) {
@@ -11,9 +12,23 @@ function(x, start, frequency, level, h=12) {
   }
   mod.ee = ets(tser)
 
-  fc.aa = forecast(mod.aa, level=level)
-  fc.aach = forecast(mod.aach, level=level)
-  fc.ee = forecast(mod.ee, level=level)
+  if(frequency == 12) {
+    h <- 12
+  } else if (frequency == 4) {
+    h <- 12
+  } else if (frequency == 2) {
+    h <- 10
+  } else if (frequency == 1) {
+    h <- 10
+  } else {
+    h <- 12
+  }
+
+  h <- min(size,h)
+
+  fc.aa = forecast(mod.aa, level=level, h=h)
+  fc.aach = forecast(mod.aach, level=level, h=h)
+  fc.ee = forecast(mod.ee, level=level, h=h)
   mape.aa = accuracy(mod.aa)[["MAPE"]]
   mape.aach = accuracy(mod.aach)[["MAPE"]]
   mape.ee = accuracy(mod.ee)[["MAPE"]]
