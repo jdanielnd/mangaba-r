@@ -4,13 +4,19 @@ function(x, start, frequency, level) {
   tser = ts(x, start=start, frequency=frequency)
   size = length(tser)
 
-  mod.aa = auto.arima(tser)
-  if (length(x) > (frequency+1)) {
-    mod.aach = auto.arima(tser, seasonal.test="ch")
+  if (length(x) < frequency*2) {
+    mod.aa = auto.arima(tser, seasonal=FALSE)
+    mod.aach = mod.aa
+    mod.ee = ets(tser, model="ZZN")
   } else {
-    mod.aach = auto.arima(tser)
+    mod.aa = auto.arima(tser)
+    if (length(x) > (frequency+1)) {
+      mod.aach = auto.arima(tser, seasonal.test="ch")
+    } else {
+      mod.aach = mod.aa
+    }
+    mod.ee = ets(tser)
   }
-  mod.ee = ets(tser)
 
   if(frequency == 12) {
     h <- 12
