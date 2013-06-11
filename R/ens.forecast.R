@@ -49,5 +49,5 @@ function(x, start, frequency, level) {
   point = (fc.aa$mean*0.5 + fc.aach$mean*0.5)*weight.maa + fc.ee$mean*weight.ee
   lower = (fc.aa$lower*0.5 + fc.aach$lower*0.5)*weight.maa + fc.ee$lower*weight.ee
   upper[1]
-  list(upper,point,lower)
+  list(sup=upper,point,inf=lower)
 }
