@@ -43,11 +43,16 @@ function(x, start, frequency, level) {
   mape.maa = (mape.aa + mape.aach)/2
   mape.ee = ifelse(is.infinite(mape.ee), 1, mape.ee)
   sum.mape = mape.maa + mape.ee
-  weight.maa = mape.ee/sum.mape
-  weight.ee = mape.maa/sum.mape
-  upper = (fc.aa$upper*0.5 + fc.aach$upper*0.5)*weight.maa + fc.ee$upper*weight.ee
-  point = (fc.aa$mean*0.5 + fc.aach$mean*0.5)*weight.maa + fc.ee$mean*weight.ee
-  lower = (fc.aa$lower*0.5 + fc.aach$lower*0.5)*weight.maa + fc.ee$lower*weight.ee
-  upper[1]
+  if(sum.mape == 0) {
+    upper = fc.ee$upper
+    point = fc.ee$mean
+    lower = fc.ee$lower
+  } else {
+    weight.maa = mape.ee/sum.mape
+    weight.ee = mape.maa/sum.mape
+    upper = (fc.aa$upper*0.5 + fc.aach$upper*0.5)*weight.maa + fc.ee$upper*weight.ee
+    point = (fc.aa$mean*0.5 + fc.aach$mean*0.5)*weight.maa + fc.ee$mean*weight.ee
+    lower = (fc.aa$lower*0.5 + fc.aach$lower*0.5)*weight.maa + fc.ee$lower*weight.ee
+  }
   list(sup=upper,point,inf=lower)
 }
