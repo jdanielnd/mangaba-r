@@ -43,7 +43,7 @@ function(x, start, frequency, level) {
   mape.maa = (mape.aa + mape.aach)/2
   mape.ee = ifelse(is.infinite(mape.ee), 1, mape.ee)
   sum.mape = mape.maa + mape.ee
-  if(sum.mape == 0) {
+  if(sum.mape == 0 || is.nan(sum.mape)) {
     upper = fc.ee$upper
     point = fc.ee$mean
     lower = fc.ee$lower
