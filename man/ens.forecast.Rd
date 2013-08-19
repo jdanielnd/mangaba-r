@@ -8,7 +8,7 @@ Ensembled forecast
   Generate ensembled forecast
 }
 \usage{
-ens.forecast(x, start, frequency, level, h=12)
+ens.forecast(x, start, frequency, level)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,9 +23,6 @@ time series frequency
 }
   \item{level}{
 confidence level for forecast
-}
-  \item{h}{
-number of periods to be forecasted
 }
 }
 \value{

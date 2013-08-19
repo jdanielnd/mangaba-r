@@ -13,8 +13,14 @@ function(x, start, frequency, level) {
     mod.aach = mod.aa
     mod.ee = ets(tser, model="ZZN")
   } else {
-    mod.aa = auto.arima(tser)
     mod.aach = auto.arima(tser, seasonal.test="ch")
+    # If length is smaller than freq*2+5 both arima are ch
+    # Else uses OCSB test
+    if(length(x)>frequency*2+5){
+      mod.aa = auto.arima(tser)
+    } else {
+      mod.aa = mod.aach
+    }
     mod.ee = ets(tser)
   }
 
@@ -40,9 +46,9 @@ function(x, start, frequency, level) {
   fc.ee = forecast(mod.ee, level=level, h=h)
 
   # Calculate MAPE's
-  mae.aa = accuracy(mod.aa)[["MAE"]]
-  mae.aach = accuracy(mod.aach)[["MAE"]]
-  mae.ee = accuracy(mod.ee)[["MAE"]]
+  mae.aa = accuracy(mod.aa)[,"MAE"]
+  mae.aach = accuracy(mod.aach)[,"MAE"]
+  mae.ee = accuracy(mod.ee)[,"MAE"]
 
   # Correct MAPE's - If it's infinite, replace by 1
   # We don't need to correct the MAPE anymore, because MAE doesn't have
@@ -66,8 +72,8 @@ function(x, start, frequency, level) {
   #   lower = fc.ee$lower
   # } else {
   # Else combine models  
-    weight.maa = mape.ee/sum.mape
-    weight.ee = mape.maa/sum.mape
+    weight.maa = mae.ee/sum.mae
+    weight.ee = mae.maa/sum.mae
     upper = (fc.aa$upper*0.5 + fc.aach$upper*0.5)*weight.maa + fc.ee$upper*weight.ee
     point = (fc.aa$mean*0.5 + fc.aach$mean*0.5)*weight.maa + fc.ee$mean*weight.ee
     lower = (fc.aa$lower*0.5 + fc.aach$lower*0.5)*weight.maa + fc.ee$lower*weight.ee
