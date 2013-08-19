@@ -6,5 +6,5 @@ Date: 2013-03-11
 Author: João Daniel <jdanielnd@gmail.com>
 Maintainer: João Daniel <jdanielnd@gmail.com>
 Description: Provides an enseble forecast function
+Depends: R (>= 3.0.1), forecast (>= 4.0)
 License: GPL-2
-Depends: forecast
