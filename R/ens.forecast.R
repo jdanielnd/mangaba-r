@@ -26,7 +26,7 @@ function(x, start, frequency, level) {
 
   # Set the default horizont for each type of frequency
   if(frequency == 12) {
-    h <- 12
+    h <- 18
   } else if (frequency == 4) {
     h <- 12
   } else if (frequency == 2) {
