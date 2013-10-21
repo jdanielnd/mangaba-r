@@ -1,5 +1,5 @@
 ens.forecast <-
-function(x, start, frequency, level) {
+function(x, start, frequency, level, xreg=NULL, xregp=NULL) {
 
   # Creating Time Series object
   tser = ts(x, start=start, frequency=frequency)
@@ -9,15 +9,15 @@ function(x, start, frequency, level) {
 
   # Seasonal is disabled if the size is smaller then 2*frequency
   if (length(x) < frequency*2) {
-    mod.aa = auto.arima(tser, seasonal=FALSE)
+    mod.aa = auto.arima(tser, seasonal=FALSE, xreg=xreg)
     mod.aach = mod.aa
     mod.ee = ets(tser, model="ZZN")
   } else {
-    mod.aach = auto.arima(tser, seasonal.test="ch")
+    mod.aach = auto.arima(tser, seasonal.test="ch", xreg=xreg)
     # If length is smaller than freq*2+5 both arima are ch
     # Else uses OCSB test
     if(length(x)>frequency*2+5){
-      mod.aa = auto.arima(tser)
+      mod.aa = auto.arima(tser, xreg=xreg)
     } else {
       mod.aa = mod.aach
     }
@@ -41,8 +41,8 @@ function(x, start, frequency, level) {
   h <- min(size,h)
 
   # Calculate forecasts
-  fc.aa = forecast(mod.aa, level=level, h=h)
-  fc.aach = forecast(mod.aach, level=level, h=h)
+  fc.aa = forecast(mod.aa, level=level, h=h, xreg=xregp)
+  fc.aach = forecast(mod.aach, level=level, h=h, xreg=xregp)
   fc.ee = forecast(mod.ee, level=level, h=h)
 
   # Calculate MAPE's
