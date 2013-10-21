@@ -1,5 +1,5 @@
 ens.forecast <-
-function(x, start, frequency, level, xreg=NULL, xregp=NULL) {
+function(x, start, frequency, level, xreg=NULL) {
 
   # Creating Time Series object
   tser = ts(x, start=start, frequency=frequency)
@@ -41,8 +41,13 @@ function(x, start, frequency, level, xreg=NULL, xregp=NULL) {
   h <- min(size,h)
 
   # Calculate forecasts
-  fc.aa = forecast(mod.aa, level=level, h=h, xreg=xregp)
-  fc.aach = forecast(mod.aach, level=level, h=h, xreg=xregp)
+  if(is.null(xreg)){
+    fc.aa = forecast(mod.aa, level=level, h=h)
+    fc.aach = forecast(mod.aach, level=level, h=h)
+  } else {
+    fc.aa = forecast(mod.aa, level=level, h=h, xreg=rep(0,h))
+    fc.aach = forecast(mod.aach, level=level, h=h, xreg=rep(0,h))
+  }
   fc.ee = forecast(mod.ee, level=level, h=h)
 
   # Calculate MAPE's
@@ -90,5 +95,10 @@ function(x, start, frequency, level, xreg=NULL, xregp=NULL) {
   fitted.ens <- (fitted.aa*0.5 + fitted.aach*0.5)*weight.maa + fitted.ee*weight.ee
   errors <- accuracy(f=fitted.ens, x=tser)[,c("MAE","MAPE")]
 
-  list(sup=upper,point,inf=lower,errors=errors)
+  # Calculate effect size
+  effect.aa <- coef(mod.aa)[["xreg"]]
+  effect.aach <- coef(mod.aach)[["xreg"]]
+  effect <- mean(c(effect.aa,effect.aach))
+
+  list(sup=upper,point,inf=lower,errors=errors,effect=effect)
 }
