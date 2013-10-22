@@ -95,10 +95,14 @@ function(x, start, frequency, level, xreg=NULL) {
   fitted.ens <- (fitted.aa*0.5 + fitted.aach*0.5)*weight.maa + fitted.ee*weight.ee
   errors <- accuracy(f=fitted.ens, x=tser)[,c("MAE","MAPE")]
 
-  # Calculate effect size
-  effect.aa <- coef(mod.aa)[["xreg"]]
-  effect.aach <- coef(mod.aach)[["xreg"]]
-  effect <- mean(c(effect.aa,effect.aach))
+  # Calculate effect size if xreg in not null
+  if(is.null(xreg)){
+    effect <- 0
+  } else {
+    effect.aa <- coef(mod.aa)[["xreg"]]
+    effect.aach <- coef(mod.aach)[["xreg"]]
+    effect <- mean(c(effect.aa,effect.aach))
+  }
 
   list(sup=upper,point,inf=lower,errors=errors,effect=effect)
 }
