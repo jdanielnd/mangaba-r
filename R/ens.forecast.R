@@ -13,7 +13,14 @@ function(x, start, frequency, level, xreg=NULL) {
     mod.aach = mod.aa
     mod.ee = ets(tser, model="ZZN")
   } else {
-    mod.aach = auto.arima(tser, seasonal.test="ch", xreg=xreg)
+
+    ## Try Canova-Hansen test, if any error happens, use OCSB test.
+    mod.aach = NULL
+    try({mod.aach = auto.arima(tser, seasonal.test="ch", xreg=xreg)}, silent=TRUE)
+    if(is.null(mod.aach)) {
+      mod.aach = auto.arima(tser, xreg=xreg)  
+    }
+    
     # If length is smaller than freq*2+5 both arima are ch
     # Else uses OCSB test
     if(length(x)>frequency*2+5){
